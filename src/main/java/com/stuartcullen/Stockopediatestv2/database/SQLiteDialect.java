@@ -8,7 +8,7 @@ import java.sql.Types;
 /**
  * Stuart Cullen - 2021-02-13
  *
- * A new dialect for SQLite as it doesn't come out of the box
+ * A new dialect for SQLite as it doesn't come out of the box with spring boot
  */
 public class SQLiteDialect extends Dialect {
 
