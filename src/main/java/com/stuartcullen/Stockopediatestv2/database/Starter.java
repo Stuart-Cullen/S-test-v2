@@ -54,19 +54,21 @@ public class Starter implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         DatabaseUtils.createDatabase(template);
-        populateDatabase();
+        populateDatabase(template);
     }
 
 
     /**
      * Parse the CSV files and fill the database with the provided data
      */
-    public void populateDatabase() {
+    public void populateDatabase(JdbcTemplate _template) {
         try {
             FromCSV.parseAttributes(new InputStreamReader(attributesCSV.getInputStream()), template);
             FromCSV.parseSecurities(new InputStreamReader(securitiesCSV.getInputStream()), template);
             FromCSV.parseFacts(new InputStreamReader(factsCSV.getInputStream()), template);
-            System.out.println("DATABASE READY!");
+            int rowCount = DatabaseUtils.getRowCount(template);
+            System.out.println("Database ready." + rowCount + " rows were created in master.");
+            System.out.println("The join view has :" + DatabaseUtils.getJoinedFactsRowCount(template) + "rows.");
         } catch (IOException e) {
             //Fail quickly and loudly
             throw new RuntimeException(e);

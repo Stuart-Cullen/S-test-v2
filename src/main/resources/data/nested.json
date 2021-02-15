@@ -1,0 +1,8 @@
+{
+  "expression": {
+    "fn": "-",
+    "a": {"fn": "-", "a": "eps", "b": "shares"},
+    "b": {"fn": "-", "a": "assets", "b": "liabilities"}
+  },
+  "security": "CDE"
+}

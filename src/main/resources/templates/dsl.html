@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>DSL Input</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Custom DSL processor</h1>
+<form action="#" th:action="@{/dsl}" th:object="${dsl}" method="post">
+    <p>DSL: <textarea rows="8" cols="60" th:field="*{content}" ></textarea></p>
+    <p><input type="submit" value="Evaluate DSL" />
+</form>
+</body>
+</html>

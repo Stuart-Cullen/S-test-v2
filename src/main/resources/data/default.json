@@ -1,0 +1,24 @@
+{
+  "expression": {
+    "fn": "*",
+    "a": {
+      "fn": "*", "a": {
+        "fn": "-", "a": "eps", "b": "shares"
+      }, "b": {
+        "fn": "/", "a": "price", "b": {
+          "fn": "/", "a": "price", "b": "eps"
+        }
+      }
+    },
+    "b": {
+      "fn": "*", "a": {
+        "fn": "+", "a": {
+          "fn": "*", "a": 5, "b": 2
+        }, "b": {
+          "fn": "*", "a": "sales", "b": 2
+        }
+      }, "b": "liabilities"
+    }
+  },
+  "security": "CDE"
+}

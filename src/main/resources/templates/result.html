@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Stockopedia Test V2 - Live Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <style>
+
+        div.language-json {
+            white-space: pre;
+        }
+
+        .node circle {
+            fill: #ccc;
+            stroke: #8b4513;
+            stroke-width: 3px;
+        }
+
+        .node text { font: 16px sans-serif; }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            vertical-align: top;
+            overflow: hidden;
+        }
+
+        .svg-content {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .error-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            vertical-align: top;
+            overflow: hidden;
+        }
+
+    </style>
+
+</head>
+<body>
+<h1>Finished Processing</h1>
+<a href="/dsl">Custom DSL</a>
+<div class="language-json"><p th:text="${dsl.content}"></p></div>
+<div id="container" class="svg-container"></div>
+
+<script th:inline="javascript">
+    document.querySelectorAll('div.language-json').forEach(block => {
+        // then highlight each
+        hljs.highlightBlock(block);
+    });
+</script>
+
+<script th:inline="javascript">
+
+    width = 900;
+    height = 700;
+    var i = 0;
+
+    var tree = d3.layout.tree()
+        .size([height, width]);
+
+    var diagonal = d3.svg.diagonal()
+        .projection(function (d) {
+            return [d.y, d.x];
+        });
+
+    var svg = d3.select("div#container")
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "-175 0 1224 700")
+        .classed("svg-content", true);
+
+    root = [(${dsl_json})];
+
+    update(root);
+
+    function update(source) {
+
+        // Compute the new tree layout.
+        var nodes = tree.nodes(root).reverse(),
+            links = tree.links(nodes);
+
+        // Normalize for fixed-depth.
+        nodes.forEach(function (d) {
+            d.y = d.depth * 180;
+        });
+
+        // Declare the nodes
+        var node = svg.selectAll("g.node")
+            .data(nodes, function (d) {
+                return d.id || (d.id = ++i);
+            });
+
+        // Enter the nodes.
+        var nodeEnter = node.enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function (d) {
+                return "translate(" + d.y + "," + d.x + ")";
+            });
+
+
+        node.append("circle")
+            .attr("r", 10);
+        // .style("fill", d => d.data.display_type === "function");
+
+        nodeEnter.append("text")
+            .attr("x", function (d) {
+                return d.children || d._children ? -13 : 13;
+            })
+            .attr("dy", function (d) {
+                return d.function_description ? "1.8em" : ".35em";
+            })
+            .style("font-size", function (d) {
+                return d.function_description ? "10px" : "16px";
+            })
+            .style("fill", function (d) {
+                return d.function_description ? "grey" : "black";
+            })
+            .attr("text-anchor", function (d) {
+                return d.children || d._children ? "end" : "start";
+            })
+
+            .text(function (d) {
+                return d.description;
+            })
+            .style("fill-opacity", 1);
+
+        nodeEnter.append("text")
+            .attr("dx", function (d) {
+                return -10
+            })
+            .attr("dy", ".35em")
+            .style("font-size", "34px")
+            .style("fill", "saddlebrown")
+            .text(function (d) {
+                return d.function_description
+            })
+
+        // Declare the links
+        var link = svg.selectAll("path.link").data(links, function (d) {
+            return d.target.id;
+        });
+
+        // Enter the links.
+        link.enter().insert("path", "g")
+            .attr("class", "link")
+            .attr("d", diagonal);
+    }
+
+</script>
+</body>
+</html>

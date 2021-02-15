@@ -11,12 +11,21 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 import java.util.Objects;
 
+/**
+ * Stuart Cullen - 2021-02-14
+ *
+ * The application entry point
+ */
 @SpringBootApplication
 public class StockopediaTestV2Application {
 
+	/**
+	 * The standard environment variable
+	 */
 	@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection") //that's ok for this assignment
 	@Autowired
 	Environment env;
+
 
 	/**
 	 * @return A datasource based on SQLite
@@ -29,10 +38,12 @@ public class StockopediaTestV2Application {
 		return dataSource;
 	}
 
+
+	/**
+	 * The main method of the entry point
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(StockopediaTestV2Application.class, args);
 	}
-
-
 
 }

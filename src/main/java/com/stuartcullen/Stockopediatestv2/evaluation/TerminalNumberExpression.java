@@ -1,5 +1,6 @@
 package com.stuartcullen.Stockopediatestv2.evaluation;
 
+
 import java.math.BigDecimal;
 
 /**
@@ -23,14 +24,18 @@ public class TerminalNumberExpression extends FlatTraversalExpression {
         this.number = number;
     }
 
+
     /**
      * Construct with static number provided
+     * This is also overwrites the display type and description for the diagram
      *
      * @param number The number at which this expression now terminates
      */
     public TerminalNumberExpression(float number) {
         this();
         this.number = number;
+        setDThreeNodeDisplayType("number");
+        setDThreeNodeDisplayDescription(String.valueOf(number));
     }
 
 
@@ -38,7 +43,25 @@ public class TerminalNumberExpression extends FlatTraversalExpression {
      * Construct with default function to relay the number via a lambda
      */
     protected TerminalNumberExpression() {
-        this.function = (ignoredA, ignoredB) -> new BigDecimal(this.number);
+        this.function = new BigDecimalOperation() {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public String getUIDescription() {
+                throw new RuntimeException("Not applicable for a terminal function!");
+            }
+
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public BigDecimal apply(BigDecimal bigDecimal, BigDecimal bigDecimal2) {
+                return BigDecimal.valueOf(number);
+            }
+        };
     }
 
 }

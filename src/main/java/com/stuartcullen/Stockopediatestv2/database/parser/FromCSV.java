@@ -78,33 +78,33 @@ public class FromCSV {
     public static void parseFacts(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")
-        final String query="INSERT INTO `Fact` values(?,?,?)";
+        final String query="INSERT INTO Fact values(?,?,?)";
 
         try (LineNumberReader reader = new LineNumberReader(source)) {
             skipHeader(reader);
             reader.lines()
-                .map(each -> each.split(DELIMITER))
-                .peek(args -> {
-                    template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
+                    .map(each -> each.split(DELIMITER))
+                    .forEach(args -> {
+                        template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
 
-                        //Security ID
-                        statement.setInt(
-                                FactColumn.SECURITY_ID.ordinal() + INDEX_OFFSET,
-                                parseUnsignedInt(args[FactColumn.SECURITY_ID.ordinal()]));
+                            //Security ID
+                            statement.setInt(
+                                    FactColumn.SECURITY_ID.ordinal() + INDEX_OFFSET,
+                                    parseUnsignedInt(args[FactColumn.SECURITY_ID.ordinal()]));
 
-                        //Attribute ID
-                        statement.setInt(
-                                FactColumn.ATTRIBUTE_ID.ordinal() + INDEX_OFFSET,
-                                parseUnsignedInt(args[FactColumn.ATTRIBUTE_ID.ordinal()]));
+                            //Attribute ID
+                            statement.setInt(
+                                    FactColumn.ATTRIBUTE_ID.ordinal() + INDEX_OFFSET,
+                                    parseUnsignedInt(args[FactColumn.ATTRIBUTE_ID.ordinal()]));
 
-                        //Value
-                        statement.setFloat(
-                                FactColumn.VALUE.ordinal() + INDEX_OFFSET,
-                                parseFloat(args[FactColumn.VALUE.ordinal()]));
+                            //Value
+                            statement.setFloat(
+                                    FactColumn.VALUE.ordinal() + INDEX_OFFSET,
+                                    parseFloat(args[FactColumn.VALUE.ordinal()]));
 
-                        return statement.execute();
+                            return statement.execute();
+                        });
                     });
-                });
         } catch (IOException exception) {
             throw new RuntimeException(exception);
             //since there are no provisions for a "user" to rectify this problem
@@ -121,28 +121,28 @@ public class FromCSV {
     public static void parseAttributes(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")
-        final String query="INSERT INTO `Attribute` values(?,?)";
+        final String query="INSERT INTO Attribute values(?,?)";
 
         try (LineNumberReader reader = new LineNumberReader(source)) {
             skipHeader(reader);
             reader.lines()
-                .map(each -> each.split(DELIMITER))
-                .peek(args -> {
-                    template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
+                    .map(each -> each.split(DELIMITER))
+                    .forEach(args -> {
+                        template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
 
-                        //ID
-                        statement.setInt(
-                                AttributeColumn.ID.ordinal() + INDEX_OFFSET,
-                                parseUnsignedInt(args[AttributeColumn.ID.ordinal()]));
+                            //ID
+                            statement.setInt(
+                                    AttributeColumn.ID.ordinal() + INDEX_OFFSET,
+                                    parseUnsignedInt(args[AttributeColumn.ID.ordinal()]));
 
-                        //Name
-                        statement.setString(
-                                AttributeColumn.NAME.ordinal() + INDEX_OFFSET,
-                                args[AttributeColumn.NAME.ordinal()]);
+                            //Name
+                            statement.setString(
+                                    AttributeColumn.NAME.ordinal() + INDEX_OFFSET,
+                                    args[AttributeColumn.NAME.ordinal()]);
 
-                        return statement.execute();
+                            return statement.execute();
+                        });
                     });
-                });
         } catch (IOException exception) {
             throw new RuntimeException(exception);
             //since there are no provisions for a "user" to rectify this problem
@@ -159,28 +159,28 @@ public class FromCSV {
     public static void parseSecurities(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")
-        final String query="INSERT INTO `Security` values(?,?)";
+        final String query="INSERT INTO Security values(?,?)";
 
         try (LineNumberReader reader = new LineNumberReader(source)) {
             skipHeader(reader);
             reader.lines()
-                .map(each -> each.split(DELIMITER))
-                .peek(args -> {
-                    template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
+                    .map(each -> each.split(DELIMITER))
+                    .forEach(args -> {
+                        template.execute(query, (PreparedStatementCallback<Boolean>) statement -> {
 
-                        //ID
-                        statement.setInt(
-                                SecurityColumn.ID.ordinal() + INDEX_OFFSET,
-                                parseUnsignedInt(args[SecurityColumn.ID.ordinal()]));
+                            //ID
+                            statement.setInt(
+                                    SecurityColumn.ID.ordinal() + INDEX_OFFSET,
+                                    parseUnsignedInt(args[SecurityColumn.ID.ordinal()]));
 
-                        //Name
-                        statement.setString(
-                                SecurityColumn.SYMBOL.ordinal() + INDEX_OFFSET,
-                                args[SecurityColumn.SYMBOL.ordinal()]);
+                            //Name
+                            statement.setString(
+                                    SecurityColumn.SYMBOL.ordinal() + INDEX_OFFSET,
+                                    args[SecurityColumn.SYMBOL.ordinal()]);
 
-                        return statement.execute();
+                            return statement.execute();
+                        });
                     });
-                });
         } catch (IOException exception) {
             throw new RuntimeException(exception);
             //since there are no provisions for a "user" to rectify this problem
