@@ -74,7 +74,6 @@ public class FromCSV {
      *
      * @param source The source CSV as a buffered reader
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") //(peek) by design
     public static void parseFacts(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")
@@ -117,7 +116,6 @@ public class FromCSV {
      *
      * @param source The source CSV as a buffered reader
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") //(peek) by design
     public static void parseAttributes(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")
@@ -155,7 +153,6 @@ public class FromCSV {
      *
      * @param source The source CSV as a buffered reader
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") //(peek) by design
     public static void parseSecurities(Reader source, JdbcTemplate template) {
 
         @Language("SQLite")

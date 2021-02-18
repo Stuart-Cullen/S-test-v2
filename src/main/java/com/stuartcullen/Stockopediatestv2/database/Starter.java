@@ -54,14 +54,14 @@ public class Starter implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         DatabaseUtils.createDatabase(template);
-        populateDatabase(template);
+        populateDatabase();
     }
 
 
     /**
      * Parse the CSV files and fill the database with the provided data
      */
-    public void populateDatabase(JdbcTemplate _template) {
+    public void populateDatabase() {
         try {
             FromCSV.parseAttributes(new InputStreamReader(attributesCSV.getInputStream()), template);
             FromCSV.parseSecurities(new InputStreamReader(securitiesCSV.getInputStream()), template);
