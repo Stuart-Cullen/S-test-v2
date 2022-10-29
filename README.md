@@ -1,4 +1,6 @@
 # S-test-v2
+(please note Stulainen and bootwell are my old accounts, not other contributors)
+
 A new version of the assignment with some added features.
 Ingests financial DSL, stores, computes and draws a diagram...
 
